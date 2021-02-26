@@ -119,18 +119,42 @@ class MyApp extends StatelessWidget {
                   try {
                     String result = await scanner.scan();
                     var decoded = json.decode(result);
-                    var res = (await db.query('profiles', where: 'url = ?', whereArgs: [decoded['RequestURL']], limit: 1))[0];
-                    if (res == null) return ScaffoldMessenger.of(ctx).showSnackBar(SnackBar(content: Text('등록되지 않은 주소입니다. 사용하시려면 먼저 계정을 등록해주세요.')));
-                    await http.post(Uri.parse(res['url']), headers: {
-                      'Content-Type': 'application/json'
-                    }, body: json.encode({
-                      'email': res['email'],
-                      'password': res['password'],
-                      'appversion': 2,
-                      'alphaapp': 'false',
-                      'socketID': decoded['socketID']
-                    }));
-                    ScaffoldMessenger.of(ctx).showSnackBar(SnackBar(content: Text('로그인 요청이 완료되었습니다.')));
+                    var data = (await db.query('profiles',
+                        where: 'url = ?',
+                        whereArgs: [decoded['RequestURL']],
+                        limit: 1));
+                    if (data.length == 0) {
+                      log("null");
+                      await showDialog(
+                          context: ctx,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: Text('프로필 없음'),
+                              content: Text('프로필이 등록되어 있지 않습니다. 먼저 프로필을 등록해주세요.'),
+                              actions: [
+                                TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: Text('확인'))
+                              ],
+                            );
+                          },
+                          barrierDismissible: false);
+                      return;
+                    }
+                    var res = data[0];
+                    await http.post(Uri.parse(res['url']),
+                        headers: {'Content-Type': 'application/json'},
+                        body: json.encode({
+                          'email': res['email'],
+                          'password': res['password'],
+                          'appversion': 2,
+                          'alphaapp': 'false',
+                          'socketID': decoded['socketID']
+                        }));
+                    ScaffoldMessenger.of(ctx).showSnackBar(
+                        SnackBar(content: Text('로그인 요청이 완료되었습니다.')));
                   } finally {
                     await db.close();
                   }
