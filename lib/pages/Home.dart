@@ -108,7 +108,9 @@ class MyApp extends StatelessWidget {
                       SnackBar(content: Text('카메라 사용 권한을 허용해주세요.')));
                 }
               },
-              child: Text('계정 추가하기'))
+              child: Text('계정 추가하기')),
+          OutlinedButton(onPressed: () {
+          }, child: Text('QR코드 스캔하기'))
         ],
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
