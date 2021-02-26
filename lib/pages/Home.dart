@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
                 var db = await DB.getDB();
                 var data = await showDialog(context: ctx, builder: (context) {
                   return AlertDialog(
-                    title: Text('TITLE'),
+                    title: Text('계정 등록'),
                     content: Form(
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
