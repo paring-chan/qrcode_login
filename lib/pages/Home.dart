@@ -109,7 +109,7 @@ class MyApp extends StatelessWidget {
                 }
               },
               child: Text('계정 추가하기')),
-          OutlinedButton(onPressed: () {
+          OutlinedButton(onPressed: () async {
           }, child: Text('QR코드 스캔하기'))
         ],
         mainAxisAlignment: MainAxisAlignment.center,
