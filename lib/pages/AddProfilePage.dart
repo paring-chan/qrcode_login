@@ -1,8 +1,26 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class AddProfilePage extends StatelessWidget {
+
+class AddProfilePage extends StatefulWidget {
+  @override
+  _AddProfilePage createState() => _AddProfilePage();
+}
+
+class _AddProfilePage extends State {
   final _formKey = GlobalKey<FormState>();
+
+  final nameController = TextEditingController();
+  final emailController = TextEditingController();
+  final pwController = TextEditingController();
+
+  @override
+  dispose() {
+    nameController.dispose();
+    emailController.dispose();
+    pwController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +42,7 @@ class AddProfilePage extends StatelessWidget {
                   } else
                     return null;
                 },
+                controller: nameController,
                 decoration: InputDecoration(
                   hintText: '프로필 이름'
                 ),
@@ -38,6 +57,7 @@ class AddProfilePage extends StatelessWidget {
                 decoration: InputDecoration(
                     hintText: '이메일'
                 ),
+                controller: emailController,
               ),
               TextFormField(
                 validator: (value) {
@@ -50,11 +70,16 @@ class AddProfilePage extends StatelessWidget {
                     hintText: '비밀번호',
                 ),
                 obscureText: true,
+                controller: pwController,
               ),
               Padding(padding: const EdgeInsets.symmetric(vertical: 16.0),
               child: SizedBox(
                 width: double.infinity,
-                child: OutlinedButton(onPressed: () {}, child: Text('추가하기')),
+                child: OutlinedButton(onPressed: () {
+                  if (_formKey.currentState.validate()) {
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('추가')));
+                  }
+                }, child: Text('추가하기')),
               )
               )
             ],
