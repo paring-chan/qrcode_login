@@ -8,6 +8,7 @@ import 'package:qrlogin/db.dart';
 import 'package:qrlogin/structures/profile.dart';
 import 'package:qrscan/qrscan.dart' as scanner;
 import 'package:sqflite/sqflite.dart';
+import 'package:http/http.dart' as http;
 
 class MyApp extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
@@ -96,9 +97,11 @@ class MyApp extends StatelessWidget {
                     profile.email = _emailController.text;
                     profile.password = _passwordController.text;
 
-                    await db.insert('profiles', profile.toMap(), conflictAlgorithm: ConflictAlgorithm.replace);
+                    await db.insert('profiles', profile.toMap(),
+                        conflictAlgorithm: ConflictAlgorithm.replace);
                     await db.close();
-                    ScaffoldMessenger.of(ctx).showSnackBar(SnackBar(content: Text('프로필이 저장되었습니다.')));
+                    ScaffoldMessenger.of(ctx)
+                        .showSnackBar(SnackBar(content: Text('프로필이 저장되었습니다.')));
                   } catch (error) {
                     log(error.toString());
                     Fluttertoast.showToast(msg: "QR코드 파싱중 오류가 발생했습니다.");
@@ -109,8 +112,34 @@ class MyApp extends StatelessWidget {
                 }
               },
               child: Text('계정 추가하기')),
-          OutlinedButton(onPressed: () async {
-          }, child: Text('QR코드 스캔하기'))
+          OutlinedButton(
+              onPressed: () async {
+                if (await Permission.camera.request().isGranted) {
+                  var db = await DB.getDB();
+                  try {
+                    String result = await scanner.scan();
+                    var decoded = json.decode(result);
+                    var res = (await db.query('profiles', where: 'url = ?', whereArgs: [decoded['RequestURL']], limit: 1))[0];
+                    if (res == null) return ScaffoldMessenger.of(ctx).showSnackBar(SnackBar(content: Text('등록되지 않은 주소입니다. 사용하시려면 먼저 계정을 등록해주세요.')));
+                    await http.post(Uri.parse(res['url']), headers: {
+                      'Content-Type': 'application/json'
+                    }, body: json.encode({
+                      'email': res['email'],
+                      'password': res['password'],
+                      'appversion': 2,
+                      'alphaapp': 'false',
+                      'socketID': decoded['socketID']
+                    }));
+                    ScaffoldMessenger.of(ctx).showSnackBar(SnackBar(content: Text('로그인 요청이 완료되었습니다.')));
+                  } finally {
+                    await db.close();
+                  }
+                } else {
+                  ScaffoldMessenger.of(ctx).showSnackBar(
+                      SnackBar(content: Text('카메라 사용 권한을 허용해주세요.')));
+                }
+              },
+              child: Text('QR코드 스캔하기'))
         ],
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
