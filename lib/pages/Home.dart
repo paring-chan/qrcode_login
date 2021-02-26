@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:qrlogin/ProfileListView.dart';
 
 
 class MyApp extends StatelessWidget {
@@ -11,7 +10,7 @@ class MyApp extends StatelessWidget {
           title: Text('QRCODE LOGIN'),
         ),
         body: Center(
-            child: ProfileListView()
+            child: Text('test')
         ),
       );
   }
