@@ -6,13 +6,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext ctx) {
     return MaterialApp(
-      title: 'Hello world',
+      title: 'QRLogin',
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Hello world!'),
+          title: Text('QRCODE LOGIN'),
         ),
         body: Center(
-          child: Text('Hello world!'),
+          child: Text('Hello, world!'),
         ),
       ),
     );
