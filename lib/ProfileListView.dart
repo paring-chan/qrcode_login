@@ -1,7 +1,9 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:qrlogin/ProfileTile.dart';
 import 'package:qrlogin/pages/AddProfilePage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -43,9 +45,13 @@ class _ProfileListView extends State<ProfileListView> {
             );
           } else {
             if (snapshot.data.length == 0) return Text('프로필이 없습니다.');
-            return Text('프로필 선택');
+            var profiles = (snapshot.data as List<LoginProfile>).map((e) => ProfileTile(e)).toList();
+            log(profiles.toString());
+            return Column(
+              children: profiles,
+            );
           }
-        }, future: getProfiles(),)
+        }, future: getProfiles())
       ],
     );
   }
