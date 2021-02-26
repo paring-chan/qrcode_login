@@ -51,6 +51,12 @@ class AddProfilePage extends StatelessWidget {
                 ),
                 obscureText: true,
               ),
+              Padding(padding: const EdgeInsets.symmetric(vertical: 16.0),
+              child: SizedBox(
+                width: double.infinity,
+                child: OutlinedButton(onPressed: () {}, child: Text('추가하기')),
+              )
+              )
             ],
           ),
         )
