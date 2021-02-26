@@ -20,14 +20,37 @@ class AddProfilePage extends StatelessWidget {
               TextFormField(
                 validator: (value) {
                   if (value.isEmpty) {
-                    return '텍스트를 입력해주세요';
+                    return '프로필 이름을 입력해주세요';
                   } else
                     return null;
                 },
                 decoration: InputDecoration(
-                  hintText: '이메일'
+                  hintText: '프로필 이름'
                 ),
-              )
+              ),
+              TextFormField(
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return '이메일 입력해주세요';
+                  } else
+                    return null;
+                },
+                decoration: InputDecoration(
+                    hintText: '이메일'
+                ),
+              ),
+              TextFormField(
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return '비밀번호를 입력해주세요';
+                  } else
+                    return null;
+                },
+                decoration: InputDecoration(
+                    hintText: '비밀번호',
+                ),
+                obscureText: true,
+              ),
             ],
           ),
         )
