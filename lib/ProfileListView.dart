@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:qrlogin/pages/AddProfilePage.dart';
@@ -40,7 +42,8 @@ class _ProfileListView extends State<ProfileListView> {
               ),
             );
           } else {
-            return Text('test');
+            if (snapshot.data.length == 0) return Text('프로필이 없습니다.');
+            return Text('프로필 선택');
           }
         }, future: getProfiles(),)
       ],
@@ -51,5 +54,9 @@ class _ProfileListView extends State<ProfileListView> {
     var pref = await SharedPreferences.getInstance();
     var items = pref.getStringList("profiles");
     var result = <LoginProfile>[];
+    for (var value in items) {
+      result.add(LoginProfile.fromJson(json.decode(value)));
+    }
+    return result;
   }
 }
