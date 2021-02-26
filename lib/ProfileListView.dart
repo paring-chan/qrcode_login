@@ -1,7 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:qrlogin/LoginProfile.dart';
-import 'package:qrlogin/ProfileTile.dart';
 import 'package:qrlogin/pages/AddProfilePage.dart';
 
 class ProfileListView extends StatelessWidget {
@@ -17,7 +15,6 @@ class ProfileListView extends StatelessWidget {
             Navigator.push(context, MaterialPageRoute(builder: (context) => AddProfilePage()));
           },
         ),
-        ProfileTile(buildProfile('pikokr@piko.app', 'test', 'test'))
       ],
     );
   }
