@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:qrlogin/db.dart';
+import 'package:qrlogin/structures/profile.dart';
 import 'package:qrscan/qrscan.dart' as scanner;
+import 'package:sqflite/sqflite.dart';
 
 class MyApp extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
@@ -88,10 +90,15 @@ class MyApp extends StatelessWidget {
                       await db.close();
                       return;
                     }
-                    log(res['RequestURL']);
-                    log(_emailController.text);
-                    log(_passwordController.text);
+                    var profile = Profile();
+
+                    profile.requestURL = res['RequestURL'];
+                    profile.email = _emailController.text;
+                    profile.password = _passwordController.text;
+
+                    await db.insert('profiles', profile.toMap(), conflictAlgorithm: ConflictAlgorithm.replace);
                     await db.close();
+                    ScaffoldMessenger.of(ctx).showSnackBar(SnackBar(content: Text('프로필이 저장되었습니다.')));
                   } catch (error) {
                     log(error.toString());
                     Fluttertoast.showToast(msg: "QR코드 파싱중 오류가 발생했습니다.");
