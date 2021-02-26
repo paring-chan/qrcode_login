@@ -2,6 +2,12 @@ class LoginProfile {
   String name;
   String email;
   String password;
+
+  Map<String, dynamic> toJson() => {
+    'name': name,
+    'email': email,
+    'password': password
+  };
 }
 
 LoginProfile buildProfile(String email, String name, String password) {

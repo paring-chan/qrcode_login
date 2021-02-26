@@ -2,7 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:qrlogin/pages/AddProfilePage.dart';
 
-class ProfileListView extends StatelessWidget {
+class ProfileListView extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => _ProfileListView();
+}
+
+class _ProfileListView extends State<ProfileListView> {
   @override
   Widget build(BuildContext context) {
     return ListView(

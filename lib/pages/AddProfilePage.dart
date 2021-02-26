@@ -1,5 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:qrlogin/LoginProfile.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 class AddProfilePage extends StatefulWidget {
@@ -75,9 +79,17 @@ class _AddProfilePage extends State {
               Padding(padding: const EdgeInsets.symmetric(vertical: 16.0),
               child: SizedBox(
                 width: double.infinity,
-                child: OutlinedButton(onPressed: () {
+                child: OutlinedButton(onPressed: () async {
                   if (_formKey.currentState.validate()) {
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('추가')));
+                    SharedPreferences prefs = await SharedPreferences.getInstance();
+                    var list = prefs.getStringList('profiles');
+                    if (list == null) {
+                      list = <String>[];
+                    }
+                    list.add(json.encode(buildProfile(emailController.text, nameController.text, pwController.text).toJson()));
+                    prefs.setStringList('profiles', list);
+                    Navigator.pop(context);
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('프로필이 추가되었습니다.')));
                   }
                 }, child: Text('추가하기')),
               )
