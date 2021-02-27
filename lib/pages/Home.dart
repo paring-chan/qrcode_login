@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:qrlogin/db.dart';
+import 'package:qrlogin/pages/DeleteProfiles.dart';
 import 'package:qrlogin/structures/profile.dart';
 import 'package:qrscan/qrscan.dart' as scanner;
 import 'package:sqflite/sqflite.dart';
@@ -163,7 +164,10 @@ class MyApp extends StatelessWidget {
                       SnackBar(content: Text('카메라 사용 권한을 허용해주세요.')));
                 }
               },
-              child: Text('QR코드 스캔하기'))
+              child: Text('QR코드 스캔하기')),
+          OutlinedButton(onPressed: () {
+            Navigator.push(ctx, MaterialPageRoute(builder: (context) => DeleteProfiles()));
+          }, child: Text('프로필 삭제(목록)'))
         ],
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
