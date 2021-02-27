@@ -2,11 +2,14 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:qrlogin/db.dart';
 
 class ProfileTile extends StatelessWidget {
   final Map<String, dynamic> profile;
 
-  ProfileTile(this.profile);
+  ProfileTile(this.profile, this.reload);
+
+  final Function reload;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +25,7 @@ class ProfileTile extends StatelessWidget {
       title: Text(profile['email']),
       subtitle: Text(profile['url']),
       onTap: () async {
-        await showDialog(
+        var data = await showDialog(
             context: context,
             builder: (context) {
               return AlertDialog(
@@ -59,10 +62,36 @@ class ProfileTile extends StatelessWidget {
                 actions: [
                   TextButton(
                       onPressed: () {
-                        Navigator.pop(context, true);
+                        Navigator.pop(context, false);
                       },
                       child: Text('취소')),
-                  TextButton(onPressed: () {}, child: Text('삭제')),
+                  TextButton(onPressed: () async {
+                    await showDialog(
+                        context: context,
+                        builder: (context) {
+                      return AlertDialog(
+                        title: Text('프로필 삭제'),
+                        content: Text('프로필을 삭제할까요?'),
+                        actions: [
+                          TextButton(
+                              onPressed: () {
+                                Navigator.pop(context, false);
+                              },
+                              child: Text('취소')),
+                          TextButton(onPressed: () async {
+                            var db = await DB.getDB();
+                            await db.delete('profiles', where: 'id = ?', whereArgs: [profile['id']]);
+                            await db.close();
+                            Navigator.pop(context, true);
+                            Navigator.pop(context, true);
+                            await reload();
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('프로필이 삭제되었습니다.')));
+                          }, child: Text('확인'))
+                        ],
+                      );
+                    },
+                    barrierDismissible: false);
+                  }, child: Text('삭제')),
                   TextButton(
                       onPressed: () {
                         if (_formKey.currentState.validate()) {
@@ -74,6 +103,9 @@ class ProfileTile extends StatelessWidget {
               );
             },
             barrierDismissible: false);
+        if (data == true) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('프로필이 저장되었습니다.')));
+        }
       },
     );
   }

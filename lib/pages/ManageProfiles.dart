@@ -22,7 +22,7 @@ class _ManageProfiles extends State<ManagerProfiles> {
       body: Column(
         children: [
           ListView(
-            children: profiles.map((e) => ProfileTile(e)).toList(),
+            children: profiles.map((e) => ProfileTile(e, load)).toList(),
             shrinkWrap: true,
             scrollDirection: Axis.vertical,
           )
