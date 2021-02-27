@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:qrlogin/db.dart';
+import 'package:qrlogin/structures/ProfileTile.dart';
 
 class ManagerProfiles extends StatefulWidget {
   @override
@@ -21,10 +22,7 @@ class _ManageProfiles extends State<ManagerProfiles> {
       body: Column(
         children: [
           ListView(
-            children: profiles.map((e) => ListTile(
-              title: Text(e['email']),
-              subtitle: Text(e['url']),
-            )).toList(),
+            children: profiles.map((e) => ProfileTile(e)).toList(),
             shrinkWrap: true,
             scrollDirection: Axis.vertical,
           )
