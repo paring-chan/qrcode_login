@@ -29,7 +29,7 @@ class ProfileTile extends StatelessWidget {
             context: context,
             builder: (context) {
               return AlertDialog(
-                title: Text('계정 등록'),
+                title: Text('프로필 수정'),
                 content: Form(
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
@@ -104,6 +104,13 @@ class ProfileTile extends StatelessWidget {
             },
             barrierDismissible: false);
         if (data == true) {
+          var db = await DB.getDB();
+          await db.update('profiles', {
+            'email': _emailController.text,
+            'password': _passwordController.text
+          });
+          await db.close();
+          await reload();
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('프로필이 저장되었습니다.')));
         }
       },

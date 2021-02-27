@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
                         context: ctx,
                         builder: (context) {
                           return AlertDialog(
-                            title: Text('계정 등록'),
+                            title: Text('프로필 등록'),
                             content: Form(
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,
