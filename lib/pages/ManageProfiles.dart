@@ -4,19 +4,19 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:qrlogin/db.dart';
 
-class DeleteProfiles extends StatefulWidget {
+class ManagerProfiles extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => _DeleteProfiles();
+  State<StatefulWidget> createState() => _ManageProfiles();
 }
 
-class _DeleteProfiles extends State<DeleteProfiles> {
+class _ManageProfiles extends State<ManagerProfiles> {
   var profiles = <Map<String, dynamic>>[];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('프로필 삭제하기'),
+        title: Text('프로필 관리하기'),
       ),
       body: Column(
         children: [

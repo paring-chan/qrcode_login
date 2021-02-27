@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:qrlogin/db.dart';
-import 'package:qrlogin/pages/DeleteProfiles.dart';
+import 'package:qrlogin/pages/ManageProfiles.dart';
 import 'package:qrlogin/structures/profile.dart';
 import 'package:qrscan/qrscan.dart' as scanner;
 import 'package:sqflite/sqflite.dart';
@@ -166,7 +166,7 @@ class MyApp extends StatelessWidget {
               },
               child: Text('QR코드 스캔하기')),
           OutlinedButton(onPressed: () {
-            Navigator.push(ctx, MaterialPageRoute(builder: (context) => DeleteProfiles()));
+            Navigator.push(ctx, MaterialPageRoute(builder: (context) => ManagerProfiles()));
           }, child: Text('프로필 삭제(목록)'))
         ],
         mainAxisAlignment: MainAxisAlignment.center,
