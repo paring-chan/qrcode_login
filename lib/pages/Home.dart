@@ -167,7 +167,7 @@ class MyApp extends StatelessWidget {
               child: Text('QR코드 스캔하기')),
           OutlinedButton(onPressed: () {
             Navigator.push(ctx, MaterialPageRoute(builder: (context) => ManagerProfiles()));
-          }, child: Text('프로필 삭제(목록)'))
+          }, child: Text('프로필 관리'))
         ],
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
