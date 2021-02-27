@@ -19,7 +19,16 @@ class _DeleteProfiles extends State<DeleteProfiles> {
         title: Text('프로필 삭제하기'),
       ),
       body: Column(
-        children: [],
+        children: [
+          ListView(
+            children: profiles.map((e) => ListTile(
+              title: Text(e['email']),
+              subtitle: Text(e['url']),
+            )).toList(),
+            shrinkWrap: true,
+            scrollDirection: Axis.vertical,
+          )
+        ],
       ),
     );
   }
@@ -34,6 +43,9 @@ class _DeleteProfiles extends State<DeleteProfiles> {
     var db = await DB.getDB();
     try {
       var profiles = await db.query('profiles');
+      setState(() {
+        this.profiles = profiles;
+      });
     } finally {
       await db.close();
     }
